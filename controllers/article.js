@@ -2,13 +2,13 @@ const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 
-module.exports.getCards = (req, res, next) => {
+module.exports.getArticles = (req, res, next) => {
   Article.find({})
     .then((cards) => res.status(200).send(cards))
     .catch(next);
 };
 
-module.exports.deleteCard = (req, res, next) => {
+module.exports.deleteArticle = (req, res, next) => {
   Article.findByIdAndRemove(req.params.id).orFail(new NotFoundError(`Карточка не найдена ${req.params.id}`))
     // eslint-disable-next-line arrow-body-style
     .then((card) => {
@@ -22,7 +22,7 @@ module.exports.deleteCard = (req, res, next) => {
     });
 };
 
-module.exports.createCard = (req, res, next) => {
+module.exports.createArticle = (req, res, next) => {
   const {
     keyword, title, text, date, source, link, image,
   } = req.body;
