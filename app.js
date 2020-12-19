@@ -59,8 +59,7 @@ app.use('/', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   const { statusCode = 500, message } = err;
   res
     .status(statusCode)

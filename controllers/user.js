@@ -9,7 +9,6 @@ const BadRequestError = require('../errors/bad-request-error');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// eslint-disable-next-line consistent-return
 module.exports.createUser = (req, res, next) => {
   const {
     name, email, password,

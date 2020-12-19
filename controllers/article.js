@@ -1,5 +1,6 @@
 const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-error');
+const ForbiddenError = require('../errors/forbidden-error');
 const BadRequestError = require('../errors/bad-request-error');
 
 module.exports.getArticles = (req, res, next) => {
@@ -9,10 +10,15 @@ module.exports.getArticles = (req, res, next) => {
 };
 
 module.exports.deleteArticle = (req, res, next) => {
-  Article.findByIdAndRemove(req.params.id).orFail(new NotFoundError(`Карточка не найдена ${req.params.id}`))
-    // eslint-disable-next-line arrow-body-style
-    .then((card) => {
-      return res.status(200).send(card);
+  Article.findById(req.params.id).orFail(new NotFoundError(`Карточка не найдена ${req.params.id}`))
+    .then((data) => {
+      if (data.owner.toString() !== req.user._id) {
+        throw new ForbiddenError('Нельзя удалить чужую карточку');
+      } else {
+        Article.findByIdAndRemove(req.params.id)
+          .then((card) => res.status(200).send(card))
+          .catch((err) => next(err));
+      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -30,7 +36,6 @@ module.exports.createArticle = (req, res, next) => {
     keyword, title, text, date, source, link, image,
   })
     .then((user) => res.status(200).send({ user }))
-    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError(`Неверный запрос ${err.message}`));
