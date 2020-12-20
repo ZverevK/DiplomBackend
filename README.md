@@ -1,6 +1,12 @@
 # DiplomBackend
 
-### v0.0.1
+## v0.0.1
+
+## Домен
+### www.dpback.students.nomoreparties.xyz
+### dpback.students.nomoreparties.xyz
+## Публичный адрес
+### 84.201.178.238
 
 ## О приложении:
 Является бекэнд частью дипломного проекта, записывает в базу 
