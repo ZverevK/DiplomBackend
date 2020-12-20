@@ -26,7 +26,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator(url) {
-        return validator.isUrl(url);
+        return validator.isURL(url);
       },
       message: 'Неверная ссылка',
     },
@@ -36,7 +36,7 @@ const articleSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator(url) {
-        return validator.isUrl(url);
+        return validator.isURL(url);
       },
       message: 'Неверная ссылка',
     },

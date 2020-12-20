@@ -7,8 +7,13 @@ Joi.objectId = require('joi-objectid')(Joi);
 router.get('/', getArticles);
 router.post('/', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
+    keyword: Joi.string().required(),
+    title: Joi.string().required(),
+    text: Joi.string().required(),
+    date: Joi.string().required(),
+    source: Joi.string().required(),
     link: Joi.string().required().pattern(url),
+    image: Joi.string().required().pattern(url),
   }),
 }), createArticle);
 router.delete('/:id', celebrate({
