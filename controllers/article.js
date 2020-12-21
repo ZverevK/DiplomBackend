@@ -5,7 +5,7 @@ const BadRequestError = require('../errors/bad-request-error');
 
 module.exports.getArticles = (req, res, next) => {
   Article.find({})
-    .then((cards) => res.status(200).send(cards))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -16,7 +16,7 @@ module.exports.deleteArticle = (req, res, next) => {
         throw new ForbiddenError('Нельзя удалить чужую карточку');
       } else {
         Article.findByIdAndRemove(req.params.id)
-          .then((card) => res.status(200).send(card))
+          .then((card) => res.send(card))
           .catch((err) => next(err));
       }
     })

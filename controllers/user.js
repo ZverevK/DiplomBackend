@@ -21,7 +21,7 @@ module.exports.createUser = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError('Проверьте правильность данных'));
       }
-      return res.status(200).send({
+      return res.send({
         _id: user._id,
         email: user.email,
         name: user.name,
@@ -56,6 +56,6 @@ module.exports.getUser = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
     })
-    .then((data) => res.status(200).send(data))
+    .then((data) => res.send(data))
     .catch((err) => next(err));
 };
