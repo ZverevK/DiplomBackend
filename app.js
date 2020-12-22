@@ -13,8 +13,8 @@ const { login, createUser } = require('./controllers/user');
 const NotFoundError = require('./errors/not-found-error');
 
 const app = express();
-const { PORT = 3000 } = process.env;
-mongoose.connect('mongodb://localhost:27017/diplomdb', {
+const { PORT = 3000, DB_LINK = 'mongodb://localhost:27017/diplomdb' } = process.env;
+mongoose.connect(DB_LINK, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

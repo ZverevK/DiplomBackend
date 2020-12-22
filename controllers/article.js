@@ -10,7 +10,7 @@ module.exports.getArticles = (req, res, next) => {
 };
 
 module.exports.deleteArticle = (req, res, next) => {
-  Article.findById(req.params.id).orFail(new NotFoundError(`Карточка не найдена ${req.params.id}`))
+  Article.findById(req.params.id).select('+owner').orFail(new NotFoundError(`Карточка не найдена ${req.params.id}`))
     .then((data) => {
       if (data.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Нельзя удалить чужую карточку');
