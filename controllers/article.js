@@ -5,18 +5,18 @@ const BadRequestError = require('../errors/bad-request-error');
 
 module.exports.getArticles = (req, res, next) => {
   Article.find({})
-    .then((cards) => res.status(200).send(cards))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
 module.exports.deleteArticle = (req, res, next) => {
-  Article.findById(req.params.id).orFail(new NotFoundError(`Карточка не найдена ${req.params.id}`))
+  Article.findById(req.params.id).select('+owner').orFail(new NotFoundError(`Карточка не найдена ${req.params.id}`))
     .then((data) => {
       if (data.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Нельзя удалить чужую карточку');
       } else {
         Article.findByIdAndRemove(req.params.id)
-          .then((card) => res.status(200).send(card))
+          .then((card) => res.send(card))
           .catch((err) => next(err));
       }
     })
@@ -35,7 +35,16 @@ module.exports.createArticle = (req, res, next) => {
   Article.create({
     keyword, title, text, date, source, link, image, owner: req.user._id,
   })
-    .then((user) => res.status(200).send({ user }))
+    .then((article) => res.send({
+      _id: article._id,
+      keyword: article.keyword,
+      title: article.title,
+      text: article.text,
+      date: article.date,
+      source: article.source,
+      link: article.link,
+      image: article.image,
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError(`Неверный запрос ${err.message}`));
