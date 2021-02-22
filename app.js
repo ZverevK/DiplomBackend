@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const { cors } = require('./middlewares/cors');
 
 const { limiter } = require('./middlewares/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -18,12 +19,13 @@ mongoose.connect(DB_LINK, {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
 app.use(limiter);
 
+app.use(cors);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
