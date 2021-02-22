@@ -13,6 +13,8 @@ const whitelist = [
   'https://diproject.students.nomoreparties.space',
   'http://www.diproject.students.nomoreparties.space',
   'https://www.diproject.students.nomoreparties.space',
+  'http://api.students.students.nomoreparties.space',
+  'https://api.students.students.nomoreparties.space'
 ];
 
 module.exports.WHITELIST = whitelist;
