@@ -5,7 +5,7 @@ const BadRequestError = require('../errors/bad-request-error');
 
 module.exports.getArticles = (req, res, next) => {
   Article.find({})
-    .then((cards) => res.send(cards))
+    .then((cards) => res.send({ cards }))
     .catch(next);
 };
 
