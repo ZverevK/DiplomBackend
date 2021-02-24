@@ -46,7 +46,7 @@ module.exports.login = (req, res, next) => {
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
       );
-      res.send({ token, name: user.name });
+      res.send({ token, name: user.name, id: user._id });
     })
     .catch((err) => next(new AuthorizationError(`${err.message}`)));
 };
